@@ -11,31 +11,42 @@ namespace Playwright_SoundSpruce.Models
     public class ContactPage
     {
         private readonly IPage _page;
-        private readonly ILocator _firstName;
-        private readonly ILocator _lastName;
-        private readonly ILocator _email;
-        private readonly ILocator _subject;
-        private readonly ILocator _message;
+        private readonly ILocator _home;
+        public readonly ILocator firstName;
+        public readonly ILocator lastName;
+        public readonly ILocator email;
+        public readonly ILocator subject;
+        public readonly ILocator message;
         private readonly ILocator _submit;
 
         public ContactPage(IPage page)
         {
             _page = page;
-            _firstName = page.GetByLabel("First name");
-            _lastName = page.GetByLabel("Last name");
-            _email = page.GetByLabel("Email");
-            _subject = page.GetByLabel("Subject");
-            _message = page.GetByLabel("Message");
+            _home = page.GetByRole(AriaRole.Link, new() { Name = "Home" });
+            firstName = page.GetByLabel("First name");
+            lastName = page.GetByLabel("Last name");
+            email = page.GetByLabel("Email");
+            subject = page.GetByLabel("Subject");
+            message = page.GetByLabel("Message");
             _submit = page.GetByRole(AriaRole.Button, new() { Name = "Submit"});
         }
 
-        public async Task EnterFirstName(string text)
+        public async Task GoTo()
         {
-            await _firstName.FillAsync(text);
+            await _page.GotoAsync("https://soundspruce.com/contact/");
         }
-        public async Task ClickSubmit()
+
+        public async Task FillForm(ILocator formField, string text)
+        {
+            await formField.FillAsync(text);
+        }
+        public async Task ClickFormSubmit()
         {
             await _submit.ClickAsync();
+        }
+        public async Task ClickHome()
+        {
+            await _home.ClearAsync();
         }
     }
 }
