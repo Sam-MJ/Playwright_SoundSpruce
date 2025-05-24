@@ -10,14 +10,14 @@ namespace Playwright_SoundSpruce
 {
     public class ShopPageNavigationTests : PageTest
     {
-        private ShopPage _homePage;
+        private ShopPage _shopPage;
 
         public override async Task InitializeAsync()
         {
             await base.InitializeAsync();
 
-            _homePage = new ShopPage(Page);
-            await _homePage.GoTo();
+            _shopPage = new ShopPage(Page);
+            await _shopPage.GoTo();
 
             await Expect(Page).ToHaveTitleAsync(new Regex("shop"));
             await Expect(Page).ToHaveURLAsync(new Regex("/shop/"));
@@ -26,7 +26,7 @@ namespace Playwright_SoundSpruce
         [Fact]
         public async Task CanNavigateToSeeDetails()
         {
-            await _homePage.ClickSeeDetails();
+            await _shopPage.ClickSeeDetails();
             await Expect(Page).ToHaveURLAsync(new Regex("/shop/\\w+"));
         }
     }

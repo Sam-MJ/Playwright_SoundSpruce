@@ -35,6 +35,9 @@ namespace Playwright_SoundSpruce.Models
             await _page.GotoAsync("https://soundspruce.com/");
         }
 
+        // These ClickX methods could be handled by a generic function with a locator input but login will require extra functionality
+        // This will either make the generic method more complicated or make the API less straight-forward to use and extend.
+
         public async Task ClickAbout()
         {
             await _about.ClickAsync();
