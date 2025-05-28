@@ -10,8 +10,8 @@ namespace Playwright_SoundSpruce
 {
     public class LoginPageFixture
     {
-        public readonly string TestUserName;
-        public readonly string TestPassword;
+        public string TestUserName { get; }
+        public string TestPassword { get; }
         public LoginPageFixture()
         {
             var builder = new ConfigurationBuilder().AddUserSecrets(Assembly.GetExecutingAssembly(), false);
