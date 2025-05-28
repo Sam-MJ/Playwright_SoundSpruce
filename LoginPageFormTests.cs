@@ -43,12 +43,26 @@ namespace Playwright_SoundSpruce
         }
 
         [Fact]
-        public async Task ValidLogin()
+        public async Task ValidDetailsLogIn()
         {
             await _loginPage.FillLoginFields(fixture.TestUserName, fixture.TestPassword);
             await _loginPage.ClickLogInButton();
 
             await Expect(Page).ToHaveURLAsync("https://soundspruce.com/");
+        }
+
+        [Fact]
+        public async Task InvalidDetailsDoNotLogIn()
+        {
+            await _loginPage.FillLoginFields(fixture.TestUserName, "thisisthewrongpassword123");
+            await _loginPage.ClickLogInButton();
+
+            await Expect(Page).ToHaveURLAsync(_loginPage.PageUrl);
+
+            await _loginPage.FillLoginFields("thisisthewrongusername", fixture.TestPassword);
+            await _loginPage.ClickLogInButton();
+
+            await Expect(Page).ToHaveURLAsync(_loginPage.PageUrl);
         }
     }
 }

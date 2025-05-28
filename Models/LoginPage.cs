@@ -11,6 +11,8 @@ namespace Playwright_SoundSpruce.Models
     public class LoginPage
     {
         private readonly IPage _page;
+        public string PageUrl { get; }
+
         private readonly ILocator _userName;
         private readonly ILocator _password;
         private readonly ILocator _logIn;
@@ -19,6 +21,8 @@ namespace Playwright_SoundSpruce.Models
         public LoginPage(IPage page)
         {
             _page = page;
+            PageUrl = "https://soundspruce.com/register/login/";
+
             _userName = page.GetByLabel("Username");
             _password = page.GetByLabel("Password");
             _logIn = page.GetByRole(AriaRole.Button, new() { Name = "Log in" });
@@ -28,7 +32,7 @@ namespace Playwright_SoundSpruce.Models
 
         public async Task GoTo()
         {
-            await _page.GotoAsync("https://soundspruce.com/register/login/");
+            await _page.GotoAsync(PageUrl);
         }
 
         public async Task FillLoginFields(string userName, string password)
