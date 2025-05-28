@@ -24,6 +24,7 @@ namespace Playwright_SoundSpruce
     public class LoginPageFormTests : PageTest, IClassFixture<LoginPageFixture>
     {
         private LoginPage _loginPage;
+        private HomePage _homePage;
         private LoginPageFixture fixture;
         
         public LoginPageFormTests(LoginPageFixture fixture)
@@ -35,6 +36,8 @@ namespace Playwright_SoundSpruce
             await base.InitializeAsync();
 
             _loginPage = new LoginPage(Page);
+            _homePage = new HomePage(Page);
+
             await _loginPage.GoTo();
 
             await Expect(Page).ToHaveTitleAsync(new Regex("Log In"));
@@ -42,15 +45,22 @@ namespace Playwright_SoundSpruce
             
         }
 
+        /** <summary>
+            Fill in the correct details re-route to the home page.
+        </summary> **/
         [Fact]
         public async Task ValidDetailsLogIn()
         {
             await _loginPage.FillLoginFields(fixture.TestUserName, fixture.TestPassword);
             await _loginPage.ClickLogInButton();
 
-            await Expect(Page).ToHaveURLAsync("https://soundspruce.com/");
+            await Expect(Page).ToHaveURLAsync(_homePage.PageUrl);
         }
 
+
+        /** <summary>
+            Fill in the wrong details and attempt to log in, this should fail and should remain on the login url.
+        </summary> **/
         [Fact]
         public async Task InvalidDetailsDoNotLogIn()
         {

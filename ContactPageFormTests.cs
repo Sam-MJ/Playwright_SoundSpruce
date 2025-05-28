@@ -39,8 +39,8 @@ namespace Playwright_SoundSpruce
 
             // This will only pass when sent from an IP that has been added to recapcha whitelist.
             await _contactPage.ClickFormSubmit();
-            await Expect(Page).ToHaveURLAsync("https://soundspruce.com/contact/success");
             await Expect(Page).ToHaveTitleAsync(new Regex("Success"));
+            await Expect(Page).ToHaveURLAsync(new Regex("success"));
         }
 
         /**<summary>

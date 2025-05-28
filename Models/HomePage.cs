@@ -5,6 +5,8 @@ namespace Playwright_SoundSpruce.Models
     public class HomePage
     {
         private readonly IPage _page;
+        public string PageUrl { get; }
+
         private readonly ILocator _about;
         private readonly ILocator _shop;
         private readonly ILocator _contact;
@@ -14,6 +16,8 @@ namespace Playwright_SoundSpruce.Models
         public HomePage(IPage page)
         {
             _page = page;
+            PageUrl = "https://soundspruce.com/";
+
             _about = page.GetByRole(AriaRole.Link, new() { Name = "About" });
             _shop = page.GetByRole(AriaRole.Link, new() { Name = "Shop" });
             _contact = page.GetByRole(AriaRole.Link, new() { Name = "Contact" });
@@ -24,7 +28,7 @@ namespace Playwright_SoundSpruce.Models
 
         public async Task GoTo()
         {
-            await _page.GotoAsync("https://soundspruce.com/");
+            await _page.GotoAsync(PageUrl);
         }
 
         // These ClickX methods could be handled by a generic function with a locator input but login will require extra functionality
