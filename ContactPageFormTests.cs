@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿using System.Text.RegularExpressions;
 using Microsoft.Playwright;
 using Microsoft.Playwright.Xunit;
 using Playwright_SoundSpruce.Models;
-using Xunit.Abstractions;
 
 
 namespace Playwright_SoundSpruce
@@ -15,12 +9,6 @@ namespace Playwright_SoundSpruce
     public class ContactPageFormTests : PageTest
     {
         private ContactPage _contactPage;
-        private readonly ITestOutputHelper _output;
-
-        public ContactPageFormTests(ITestOutputHelper output)
-        {
-            _output = output;
-        }
         public override async Task InitializeAsync()
         {
             await base.InitializeAsync();
@@ -28,18 +16,16 @@ namespace Playwright_SoundSpruce
             _contactPage = new ContactPage(Page);
             await _contactPage.GoTo();
 
-            await Expect(Page).ToHaveTitleAsync(new Regex("SoundSpruce"));
+            await Expect(Page).ToHaveTitleAsync(new Regex("Contact"));
         }
 
         private async Task ExpectFormUnsent(ILocator field, string fieldInput)
         {
             await _contactPage.FillForm(field, fieldInput);
+
+            // This will only be a valid test if the form is sent from an IP that has been added to recaptcha whitelist.
+            // If it has not, the fields will remain filled even if the post request has been sent.
             Assert.Equal(await field.InputValueAsync(), fieldInput);
-
-            // Currently this just checks that after clicking submit the form contents hasn't been sent,
-            // but because recaptcha blocks sending, it also doesn't send so this test can never fail.
-
-            // TODO Expect that a request hasn't been sent when the submit button is pressed.
         }
 
         [Fact]
@@ -51,14 +37,10 @@ namespace Playwright_SoundSpruce
             await _contactPage.FillForm(_contactPage.subject, "This is a test");
             await _contactPage.FillForm(_contactPage.message, "Message");
 
-            // recaptcha will block the sending of a form so it is only possible to test that the post request was sent.
-            // it will not pass the recaptcha and therefore won't be forwarded to the success page.
-            IResponse response = await Page.RunAndWaitForResponseAsync(async () =>
-            {
-                await _contactPage.ClickFormSubmit();
-            }, response => response.Url.Contains("recaptcha"));
-
-            Assert.Equal(response.Status, 200);                   
+            // This will only pass when sent from an IP that has been added to recapcha whitelist.
+            await _contactPage.ClickFormSubmit();
+            await Expect(Page).ToHaveURLAsync("https://soundspruce.com/contact/success");
+            await Expect(Page).ToHaveTitleAsync(new Regex("Success"));
         }
 
         /**<summary>
