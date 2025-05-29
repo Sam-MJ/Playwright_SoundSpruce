@@ -41,8 +41,6 @@ namespace Playwright_SoundSpruce
             await _loginPage.GoTo();
 
             await Expect(Page).ToHaveTitleAsync(new Regex("Log In"));
-
-            
         }
 
         /** <summary>
@@ -62,14 +60,18 @@ namespace Playwright_SoundSpruce
             Fill in the wrong details and attempt to log in, this should fail and should remain on the login url.
         </summary> **/
         [Fact]
-        public async Task InvalidDetailsDoNotLogIn()
+        public async Task InvalidUserNameDoesNotLogIn()
         {
-            await _loginPage.FillLoginFields(fixture.TestUserName, "thisisthewrongpassword123");
+            await _loginPage.FillLoginFields("thisisthewrongusername", fixture.TestPassword);
             await _loginPage.ClickLogInButton();
 
             await Expect(Page).ToHaveURLAsync(_loginPage.PageUrl);
+        }
 
-            await _loginPage.FillLoginFields("thisisthewrongusername", fixture.TestPassword);
+        [Fact]
+        public async Task InvalidPasswordDoesNotLogIn()
+        {
+            await _loginPage.FillLoginFields(fixture.TestUserName, "thisisthewrongpassword123");
             await _loginPage.ClickLogInButton();
 
             await Expect(Page).ToHaveURLAsync(_loginPage.PageUrl);
