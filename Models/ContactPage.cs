@@ -7,8 +7,8 @@ namespace Playwright_SoundSpruce.Models
     {
         private readonly IPage _page;
         public string PageUrl { get; }
+        public PageHeader Header { get; }
 
-        private readonly ILocator _home;
         public readonly ILocator firstName;
         public readonly ILocator lastName;
         public readonly ILocator email;
@@ -20,8 +20,8 @@ namespace Playwright_SoundSpruce.Models
         {
             _page = page;
             PageUrl = "https://soundspruce.com/contact/";
+            Header = new PageHeader(page);
 
-            _home = page.GetByRole(AriaRole.Link, new() { Name = "Home" });
             firstName = page.GetByLabel("First name");
             lastName = page.GetByLabel("Last name");
             email = page.GetByLabel("Email");
@@ -42,10 +42,6 @@ namespace Playwright_SoundSpruce.Models
         public async Task ClickFormSubmit()
         {
             await _submit.ClickAsync();
-        }
-        public async Task ClickHome()
-        {
-            await _home.ClickAsync();
         }
     }
 }
