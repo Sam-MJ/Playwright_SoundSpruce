@@ -19,7 +19,7 @@ namespace Playwright_SoundSpruce.Models
         public ContactPage(IPage page)
         {
             _page = page;
-            PageUrl = "https://soundspruce.com/contact/";
+            PageUrl = "https://soundspruce.com/contact";
             Header = new PageHeader(page);
 
             firstName = page.GetByLabel("First name");

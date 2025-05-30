@@ -17,7 +17,7 @@ namespace Playwright_SoundSpruce.Models
         public LoginPage(IPage page)
         {
             _page = page;
-            PageUrl = "https://soundspruce.com/register/login/";
+            PageUrl = "https://soundspruce.com/register/login";
 
             _userName = page.GetByLabel("Username");
             _password = page.GetByLabel("Password");

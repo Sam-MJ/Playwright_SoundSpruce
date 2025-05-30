@@ -13,7 +13,7 @@ namespace Playwright_SoundSpruce.Models
         public HomePage(IPage page)
         {
             _page = page;
-            PageUrl = "https://soundspruce.com/";
+            PageUrl = "https://soundspruce.com";
             Header = new PageHeader(page);
 
             _getStarted = page.GetByRole(AriaRole.Link, new() { Name = "Get Started" });
