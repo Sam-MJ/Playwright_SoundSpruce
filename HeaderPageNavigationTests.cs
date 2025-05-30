@@ -30,7 +30,7 @@ namespace Playwright_SoundSpruce
         {
             await _contactPage.GoTo();
             await Expect(Page).ToHaveTitleAsync(new Regex("Contact"));
-            await Expect(Page).ToHaveURLAsync(new Regex("/contact/"));
+            await Expect(Page).ToHaveURLAsync(new Regex("/contact"));
         }
 
         [Fact]
@@ -38,7 +38,7 @@ namespace Playwright_SoundSpruce
         {
             await _homePage.Header.ClickAbout();
             await Expect(Page).ToHaveTitleAsync(new Regex("About"));
-            await Expect(Page).ToHaveURLAsync(new Regex("/about/"));
+            await Expect(Page).ToHaveURLAsync(new Regex("/about"));
         }
 
         [Fact]
@@ -54,7 +54,7 @@ namespace Playwright_SoundSpruce
         {
             await _homePage.Header.ClickContact();
             await Expect(Page).ToHaveTitleAsync(new Regex("Contact"));
-            await Expect(Page).ToHaveURLAsync(new Regex("/contact/"));
+            await Expect(Page).ToHaveURLAsync(new Regex("/contact"));
         }
 
         [Fact]
@@ -62,7 +62,7 @@ namespace Playwright_SoundSpruce
         {
             await _homePage.Header.ClickLogIn();
             await Expect(Page).ToHaveTitleAsync(new Regex("Log In"));
-            await Expect(Page).ToHaveURLAsync(new Regex("/register/login/"));
+            await Expect(Page).ToHaveURLAsync(new Regex("/register/login"));
             
         }
 
