@@ -1,4 +1,5 @@
 ﻿using Microsoft.Playwright;
+using System.Text.RegularExpressions;
 
 namespace Playwright_SoundSpruce.Models
 {
@@ -6,6 +7,7 @@ namespace Playwright_SoundSpruce.Models
     {
         private readonly IPage _page;
         public string PageUrl { get; }
+        public ILocator IncorrectCredentialsAlert { get; }
 
         private readonly ILocator _userName;
         private readonly ILocator _password;
@@ -22,6 +24,8 @@ namespace Playwright_SoundSpruce.Models
             _logIn = page.GetByRole(AriaRole.Button, new() { Name = "Log in" });
             _createAccount = page.GetByRole(AriaRole.Link, new() { Name = "Create an account" });
             _lostPassword = page.GetByRole(AriaRole.Link, new() { Name = "Lost password?" });
+
+            IncorrectCredentialsAlert = page.GetByRole(AriaRole.Alert).Locator("ul > li").Filter(new() { HasTextRegex = new Regex("Please enter a correct username and password") });
         }
 
         public async Task GoTo()

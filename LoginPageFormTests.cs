@@ -43,6 +43,12 @@ namespace Playwright_SoundSpruce
             await Expect(Page).ToHaveTitleAsync(new Regex("Log In"));
         }
 
+        private async Task ExpectNotLoggedIn()
+        {
+            await Expect(Page).ToHaveURLAsync(_loginPage.PageUrl);
+            await Expect(_loginPage.IncorrectCredentialsAlert).ToBeVisibleAsync();
+        }
+
         /** <summary>
             Fill in the correct details re-route to the home page.
         </summary> **/
@@ -65,7 +71,7 @@ namespace Playwright_SoundSpruce
             await _loginPage.FillLoginFields("thisisthewrongusername", fixture.TestPassword);
             await _loginPage.ClickLogInButton();
 
-            await Expect(Page).ToHaveURLAsync(_loginPage.PageUrl);
+            await ExpectNotLoggedIn();
         }
 
         [Fact]
@@ -74,6 +80,13 @@ namespace Playwright_SoundSpruce
             await _loginPage.FillLoginFields(fixture.TestUserName, "thisisthewrongpassword123");
             await _loginPage.ClickLogInButton();
 
+            await ExpectNotLoggedIn();
+        }
+
+        [Fact]
+        public async Task EmptyCredentialsDoesNotLogIn()
+        {
+            await _loginPage.ClickLogInButton();
             await Expect(Page).ToHaveURLAsync(_loginPage.PageUrl);
         }
     }
