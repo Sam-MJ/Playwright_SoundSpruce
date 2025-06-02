@@ -20,8 +20,8 @@ namespace Playwright_SoundSpruce.Models
             _firstName = page.GetByLabel("First name");
             _lastName = page.GetByLabel("Last name");
             _email = page.GetByLabel("Email address");
-            _password = page.GetByLabel("Password");
-            _passwordConfirmation = page.GetByLabel("Password confirmation");
+            _password = page.GetByRole(AriaRole.Textbox, new() { Name = "Password*" });
+            _passwordConfirmation = page.GetByRole(AriaRole.Textbox, new() { Name = "Password confirmation*" });
             _register = page.GetByRole(AriaRole.Button, new() { Name = "Continue" });
         }
 

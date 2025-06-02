@@ -19,14 +19,16 @@ namespace Playwright_SoundSpruce
             await Expect(Page).ToHaveTitleAsync(new Regex("Contact"));
         }
 
-        private async Task ExpectFormUnsent(ILocator field, string fieldInput)
+        private async Task SubmitButExpectFormUnsent(ILocator field, string fieldInput)
         {
             await _contactPage.FillForm(field, fieldInput);
+            await _contactPage.ClickFormSubmit();
 
             // This will only be a valid test if the form is sent from an IP that has been added to recaptcha whitelist
             // Or if the webserver is setup in a local environment with a recaptcha test key.
             // If it has not, the fields will remain filled even if the post request has been sent.
             Assert.Equal(await field.InputValueAsync(), fieldInput);
+            await Expect(Page).ToHaveURLAsync(_contactPage.PageUrl);
         }
 
         [Fact]
@@ -51,12 +53,12 @@ namespace Playwright_SoundSpruce
         [Fact]
         public async Task IncompleteRequiredFieldsForm()
         {
-            await ExpectFormUnsent(_contactPage.firstName, "Tester");
-            await ExpectFormUnsent(_contactPage.lastName, "McTestFace");
-            await ExpectFormUnsent(_contactPage.email, "test@123.com");
+            await SubmitButExpectFormUnsent(_contactPage.firstName, "Tester");
+            await SubmitButExpectFormUnsent(_contactPage.lastName, "McTestFace");
+            await SubmitButExpectFormUnsent(_contactPage.email, "test@123.com");
             
             await _contactPage.firstName.ClearAsync();
-            await ExpectFormUnsent(_contactPage.message, "Message");
+            await SubmitButExpectFormUnsent(_contactPage.message, "Message");
         }
     }
 }
