@@ -42,6 +42,7 @@ namespace Playwright_SoundSpruce
         [Fact]
         public async Task PassingCompleteForm()
         {
+            // Create unique mock usernames and emails
             string secondsSinceEpoch = DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString();
             await _registerPage.FillUsernameField("testUser" + secondsSinceEpoch);
             await _registerPage.FillFirstNameField("Tester");

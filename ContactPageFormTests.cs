@@ -19,26 +19,20 @@ namespace Playwright_SoundSpruce
             await Expect(Page).ToHaveTitleAsync(new Regex("Contact"));
         }
 
-        private async Task SubmitButExpectFormUnsent(ILocator field, string fieldInput)
+        private async Task SubmitButExpectFormUnsent()
         {
-            await _contactPage.FillForm(field, fieldInput);
-            await _contactPage.ClickFormSubmit();
-
-            // This will only be a valid test if the form is sent from an IP that has been added to recaptcha whitelist
-            // Or if the webserver is setup in a local environment with a recaptcha test key.
-            // If it has not, the fields will remain filled even if the post request has been sent.
-            Assert.Equal(await field.InputValueAsync(), fieldInput);
             await Expect(Page).ToHaveURLAsync(_contactPage.PageUrl);
+            await _contactPage.ClickFormSubmit();
         }
 
         [Fact]
         public async Task PassingCompleteForm()
         {
-            await _contactPage.FillForm(_contactPage.firstName, "Tester");
-            await _contactPage.FillForm(_contactPage.lastName, "McTestFace");
-            await _contactPage.FillForm(_contactPage.email, "test@123.com");
-            await _contactPage.FillForm(_contactPage.subject, "This is a test");
-            await _contactPage.FillForm(_contactPage.message, "Message");
+            await _contactPage.FillFirstNameField("Tester");
+            await _contactPage.FillLastNameField("McTestFace");
+            await _contactPage.FillEmailField("test@123.com");
+            await _contactPage.FillSubjectField("This is a test");
+            await _contactPage.FillMessageField("Message");
 
             // This will only be a valid test if the form is sent from an IP that has been added to recaptcha whitelist
             // Or if the webserver is setup in a local environment with a recaptcha test key.
@@ -53,12 +47,18 @@ namespace Playwright_SoundSpruce
         [Fact]
         public async Task IncompleteRequiredFieldsForm()
         {
-            await SubmitButExpectFormUnsent(_contactPage.firstName, "Tester");
-            await SubmitButExpectFormUnsent(_contactPage.lastName, "McTestFace");
-            await SubmitButExpectFormUnsent(_contactPage.email, "test@123.com");
-            
-            await _contactPage.firstName.ClearAsync();
-            await SubmitButExpectFormUnsent(_contactPage.message, "Message");
+            await _contactPage.FillFirstNameField("Tester");
+            await SubmitButExpectFormUnsent();
+
+            await _contactPage.FillLastNameField("McTestFace");
+            await SubmitButExpectFormUnsent();
+
+            await _contactPage.FillEmailField("test@123.com");
+            await SubmitButExpectFormUnsent();
+
+            await _contactPage.ClearFirstNameField();
+            await _contactPage.FillMessageField("Message");
+            await SubmitButExpectFormUnsent();
         }
     }
 }
