@@ -21,8 +21,8 @@ namespace Playwright_SoundSpruce
 
         private async Task SubmitButExpectFormUnsent()
         {
-            await Expect(Page).ToHaveURLAsync(_contactPage.PageUrl);
             await _contactPage.ClickFormSubmit();
+            await Expect(Page).ToHaveURLAsync(_contactPage.PageUrl);
         }
 
         [Fact]
