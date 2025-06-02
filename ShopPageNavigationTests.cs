@@ -16,7 +16,7 @@ namespace Playwright_SoundSpruce
             _shopPage = new ShopPage(Page);
             await _shopPage.GoTo();
 
-            await Expect(Page).ToHaveTitleAsync(new Regex("shop"));
+            await Expect(Page).ToHaveTitleAsync(new Regex("Shop"));
             await Expect(Page).ToHaveURLAsync(new Regex("/shop/"));
         }
 

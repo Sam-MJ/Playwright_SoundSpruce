@@ -22,7 +22,7 @@ namespace Playwright_SoundSpruce.Models
             _createAccount = page.GetByRole(AriaRole.Link, new() { Name = "Create an account" });
             _lostPassword = page.GetByRole(AriaRole.Link, new() { Name = "Lost password?" });
 
-            IncorrectCredentialsAlert = page.GetByRole(AriaRole.Alert).Locator("ul > li").Filter(new() { HasTextRegex = new Regex("Please enter a correct username and password") });
+            IncorrectCredentialsAlert = page.Locator("div.alert ul > li").Filter(new() { HasTextRegex = new Regex("Please enter a correct username and password") });
         }
 
         public async Task FillLoginFields(string userName, string password)
