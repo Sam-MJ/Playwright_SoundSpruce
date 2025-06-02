@@ -4,24 +4,15 @@ using Microsoft.Playwright;
 
 namespace Playwright_SoundSpruce.Models
 {
-    internal class ShopPage
+    public class ShopPage : BasePage
     {
-        private readonly IPage _page;
-        public string PageUrl { get; }
+        public override string PageUrl => BaseUrl + "shop/";
 
         private readonly ILocator _seeDetails;
 
-        public ShopPage(IPage page)
+        public ShopPage(IPage page) : base(page)
         {
-            _page = page;
-            PageUrl = "https://soundspruce.com/shop/";
-
             _seeDetails = page.GetByRole(AriaRole.Link, new() { Name = "See Details" });
-        }
-
-        public async Task GoTo()
-        {
-            await _page.GotoAsync(PageUrl);
         }
 
         public async Task ClickSeeDetails()

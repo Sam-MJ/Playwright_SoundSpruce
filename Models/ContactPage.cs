@@ -3,10 +3,9 @@
 
 namespace Playwright_SoundSpruce.Models
 {
-    public class ContactPage
+    public class ContactPage : BasePage
     {
-        private readonly IPage _page;
-        public string PageUrl { get; }
+        public override string PageUrl => BaseUrl + "contact";
         public PageHeader Header { get; }
 
         public readonly ILocator firstName;
@@ -16,10 +15,8 @@ namespace Playwright_SoundSpruce.Models
         public readonly ILocator message;
         private readonly ILocator _submit;
 
-        public ContactPage(IPage page)
+        public ContactPage(IPage page) : base(page)
         {
-            _page = page;
-            PageUrl = "https://soundspruce.com/contact";
             Header = new PageHeader(page);
 
             firstName = page.GetByLabel("First name");
@@ -28,11 +25,6 @@ namespace Playwright_SoundSpruce.Models
             subject = page.GetByLabel("Subject");
             message = page.GetByLabel("Message");
             _submit = page.GetByRole(AriaRole.Button, new() { Name = "Submit"});
-        }
-
-        public async Task GoTo()
-        {
-            await _page.GotoAsync(PageUrl);
         }
 
         public async Task FillForm(ILocator formField, string text)

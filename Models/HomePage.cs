@@ -2,27 +2,19 @@
 
 namespace Playwright_SoundSpruce.Models
 {
-    public class HomePage
+    public class HomePage : BasePage
     {
-        private readonly IPage _page;
-        public string PageUrl { get; }
+        public override string PageUrl => BaseUrl;
         public PageHeader Header { get; }
 
         private readonly ILocator _getStarted;
         private readonly ILocator _seeDetails;
-        public HomePage(IPage page)
+        public HomePage(IPage page) : base(page)
         {
-            _page = page;
-            PageUrl = "https://soundspruce.com";
             Header = new PageHeader(page);
 
             _getStarted = page.GetByRole(AriaRole.Link, new() { Name = "Get Started" });
             _seeDetails = page.GetByRole(AriaRole.Link, new() { Name = "See Details" });
-        }
-
-        public async Task GoTo()
-        {
-            await _page.GotoAsync(PageUrl);
         }
 
         public async Task ClickGetStarted()

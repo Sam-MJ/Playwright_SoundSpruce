@@ -23,7 +23,8 @@ namespace Playwright_SoundSpruce
         {
             await _contactPage.FillForm(field, fieldInput);
 
-            // This will only be a valid test if the form is sent from an IP that has been added to recaptcha whitelist.
+            // This will only be a valid test if the form is sent from an IP that has been added to recaptcha whitelist
+            // Or if the webserver is setup in a local environment with a recaptcha test key.
             // If it has not, the fields will remain filled even if the post request has been sent.
             Assert.Equal(await field.InputValueAsync(), fieldInput);
         }
@@ -37,7 +38,8 @@ namespace Playwright_SoundSpruce
             await _contactPage.FillForm(_contactPage.subject, "This is a test");
             await _contactPage.FillForm(_contactPage.message, "Message");
 
-            // This will only pass when sent from an IP that has been added to recapcha whitelist.
+            // This will only be a valid test if the form is sent from an IP that has been added to recaptcha whitelist
+            // Or if the webserver is setup in a local environment with a recaptcha test key.
             await _contactPage.ClickFormSubmit();
             await Expect(Page).ToHaveTitleAsync(new Regex("Success"));
             await Expect(Page).ToHaveURLAsync(new Regex("success"));

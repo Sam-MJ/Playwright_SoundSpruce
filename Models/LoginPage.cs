@@ -1,12 +1,12 @@
 ﻿using Microsoft.Playwright;
+using System.Buffers.Text;
 using System.Text.RegularExpressions;
 
 namespace Playwright_SoundSpruce.Models
 {
-    public class LoginPage
+    public class LoginPage : BasePage
     {
-        private readonly IPage _page;
-        public string PageUrl { get; }
+        public override string PageUrl => BaseUrl + "register/login";
         public ILocator IncorrectCredentialsAlert { get; }
 
         private readonly ILocator _userName;
@@ -14,11 +14,8 @@ namespace Playwright_SoundSpruce.Models
         private readonly ILocator _logIn;
         private readonly ILocator _createAccount;
         private readonly ILocator _lostPassword;
-        public LoginPage(IPage page)
+        public LoginPage(IPage page) : base(page)
         {
-            _page = page;
-            PageUrl = "https://soundspruce.com/register/login";
-
             _userName = page.GetByLabel("Username");
             _password = page.GetByLabel("Password");
             _logIn = page.GetByRole(AriaRole.Button, new() { Name = "Log in" });
@@ -26,11 +23,6 @@ namespace Playwright_SoundSpruce.Models
             _lostPassword = page.GetByRole(AriaRole.Link, new() { Name = "Lost password?" });
 
             IncorrectCredentialsAlert = page.GetByRole(AriaRole.Alert).Locator("ul > li").Filter(new() { HasTextRegex = new Regex("Please enter a correct username and password") });
-        }
-
-        public async Task GoTo()
-        {
-            await _page.GotoAsync(PageUrl);
         }
 
         public async Task FillLoginFields(string userName, string password)
