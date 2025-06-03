@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Playwright.Xunit;
 using Playwright_SoundSpruce.Models;
 
-namespace Playwright_SoundSpruce
+namespace Playwright_SoundSpruce.Tests
 {
     public class RegisterPageCredentialsFixture
     {

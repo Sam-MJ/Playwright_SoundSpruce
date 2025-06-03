@@ -7,7 +7,7 @@ using Microsoft.Playwright.Xunit;
 using Playwright_SoundSpruce.Models;
 using Xunit.Sdk;
 
-namespace Playwright_SoundSpruce
+namespace Playwright_SoundSpruce.Tests
 {
     public class SausageFileConverterPageNavigationTests : PageTest
     {

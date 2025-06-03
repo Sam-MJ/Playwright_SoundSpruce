@@ -2,26 +2,20 @@
 using Microsoft.Playwright.Xunit;
 using Playwright_SoundSpruce.Models;
 
-namespace Playwright_SoundSpruce
+
+namespace Playwright_SoundSpruce.Tests
 {
-    public class HomePageNavigationTests : PageTest
+    public class ShopPageNavigationTests : PageTest
     {
-        private HomePage _homePage;
+        private ShopPage _shopPage;
 
         public override async Task InitializeAsync()
         {
             await base.InitializeAsync();
 
-            _homePage = new HomePage(Page);
-            await _homePage.GoTo();
+            _shopPage = new ShopPage(Page);
+            await _shopPage.GoTo();
 
-            await Expect(Page).ToHaveTitleAsync(new Regex("SoundSpruce"));
-        }
-
-        [Fact]
-        public async Task CanNavigateToGetStarted()
-        {
-            await _homePage.ClickGetStarted();
             await Expect(Page).ToHaveTitleAsync(new Regex("Shop"));
             await Expect(Page).ToHaveURLAsync(new Regex("/shop/"));
         }
@@ -29,7 +23,7 @@ namespace Playwright_SoundSpruce
         [Fact]
         public async Task CanNavigateToSeeDetails()
         {
-            await _homePage.ClickSeeDetails();
+            await _shopPage.ClickSeeDetails();
             await Expect(Page).ToHaveURLAsync(new Regex("/shop/\\w+"));
         }
     }
