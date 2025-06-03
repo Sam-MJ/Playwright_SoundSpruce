@@ -4,8 +4,8 @@ namespace Playwright_SoundSpruce.Models
 {
     public class SausageFileConverterProductPage : ProductBasePage
     {
-        private string productSlug = "sausage-file-converter";
-        public override string PageUrl => BaseUrl + ShopUrlSegment + productSlug;
+        public override string ProductSlug => "sausage-file-converter";
+        public override string PageUrl => BaseUrl + ShopUrlSegment + ProductSlug;
 
         public SausageFileConverterProductPage(IPage page) : base(page)
         {
